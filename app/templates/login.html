@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Iniciar sesión · LabTrack{% endblock %}
+{% block shell_class %}auth-shell{% endblock %}
+{% block content %}
+<section class="login-card">
+  <div class="login-heading">
+    <span class="brand-mark brand-mark-large">LT</span>
+    <p class="eyebrow">Inventario de laboratorio</p>
+    <h1>Bienvenido a LabTrack</h1>
+    <p class="muted">Inicia sesión para administrar los equipos.</p>
+  </div>
+  <form class="stack" method="post" data-testid="login-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label class="field">
+      <span>Usuario</span>
+      <input id="username" name="username" type="text" required minlength="3" maxlength="30" autocomplete="username">
+    </label>
+    <label class="field">
+      <span>Contraseña</span>
+      <input id="password" name="password" type="password" required minlength="8" maxlength="64" autocomplete="current-password">
+    </label>
+    <button class="button button-primary button-block" type="submit">Iniciar sesión</button>
+  </form>
+</section>
+{% endblock %}

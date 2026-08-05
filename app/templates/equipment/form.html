@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} · LabTrack{% endblock %}
+{% block content %}
+<div class="narrow-content">
+  <a class="back-link" href="{{ url_for('equipment.list_equipment') }}">← Volver al inventario</a>
+  <div class="page-heading compact"><div><p class="eyebrow">Gestión de inventario</p><h1>{{ title }}</h1></div></div>
+  <form class="panel form-grid" method="post" novalidate data-testid="equipment-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label class="field">
+      <span>Código <b aria-hidden="true">*</b></span>
+      <input id="code" name="code" type="text" required minlength="3" maxlength="12" value="{{ values.get('code', '') }}" aria-describedby="code-help {% if errors.get('code') %}code-error{% endif %}">
+      <small id="code-help">Entre 3 y 12 caracteres; debe ser único.</small>
+      {% if errors.get('code') %}<span class="field-error" id="code-error">{{ errors['code'] }}</span>{% endif %}
+    </label>
+    <label class="field">
+      <span>Nombre <b aria-hidden="true">*</b></span>
+      <input id="name" name="name" type="text" required minlength="3" maxlength="80" value="{{ values.get('name', '') }}">
+      {% if errors.get('name') %}<span class="field-error">{{ errors['name'] }}</span>{% endif %}
+    </label>
+    <label class="field">
+      <span>Categoría <b aria-hidden="true">*</b></span>
+      <input id="category" name="category" type="text" required minlength="3" maxlength="40" value="{{ values.get('category', '') }}">
+      {% if errors.get('category') %}<span class="field-error">{{ errors['category'] }}</span>{% endif %}
+    </label>
+    <label class="field">
+      <span>Estado <b aria-hidden="true">*</b></span>
+      <select id="status" name="status" required>
+        <option value="">Selecciona una opción</option>
+        {% for option in ['Disponible', 'Prestado', 'En mantenimiento'] %}
+          <option value="{{ option }}" {% if values.get('status') == option %}selected{% endif %}>{{ option }}</option>
+        {% endfor %}
+      </select>
+      {% if errors.get('status') %}<span class="field-error">{{ errors['status'] }}</span>{% endif %}
+    </label>
+    <label class="field">
+      <span>Cantidad <b aria-hidden="true">*</b></span>
+      <input id="quantity" name="quantity" type="number" required min="0" max="9999" value="{{ values.get('quantity', '') }}">
+      {% if errors.get('quantity') %}<span class="field-error">{{ errors['quantity'] }}</span>{% endif %}
+    </label>
+    <label class="field field-full">
+      <span>Notas</span>
+      <textarea id="notes" name="notes" maxlength="200" rows="4" placeholder="Ubicación, calibración u otra información relevante">{{ values.get('notes', '') }}</textarea>
+      {% if errors.get('notes') %}<span class="field-error">{{ errors['notes'] }}</span>{% endif %}
+    </label>
+    <div class="form-actions field-full">
+      <a class="button button-ghost" href="{{ url_for('equipment.list_equipment') }}">Cancelar</a>
+      <button class="button button-primary" type="submit">Guardar equipo</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
+

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ equipment['name'] }} · LabTrack{% endblock %}
+{% block content %}
+<div class="narrow-content">
+  <a class="back-link" href="{{ url_for('equipment.list_equipment') }}">← Volver al inventario</a>
+  <section class="panel detail-card" data-testid="equipment-detail">
+    <div class="detail-heading">
+      <div><span class="code">{{ equipment['code'] }}</span><h1>{{ equipment['name'] }}</h1></div>
+      <a class="button button-secondary" href="{{ url_for('equipment.edit', equipment_id=equipment['id']) }}">Editar equipo</a>
+    </div>
+    <dl class="detail-grid">
+      <div><dt>Categoría</dt><dd>{{ equipment['category'] }}</dd></div>
+      <div><dt>Estado</dt><dd><span class="status status-{{ equipment['status']|lower|replace(' ', '-') }}">{{ equipment['status'] }}</span></dd></div>
+      <div><dt>Cantidad</dt><dd>{{ equipment['quantity'] }}</dd></div>
+      <div><dt>Notas</dt><dd>{{ equipment['notes'] or 'Sin notas' }}</dd></div>
+    </dl>
+  </section>
+</div>
+{% endblock %}

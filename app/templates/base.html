@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}LabTrack{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  {% if session.get('user_id') %}
+    <header class="app-header">
+      <a class="brand" href="{{ url_for('equipment.list_equipment') }}" aria-label="Ir al inventario">
+        <span class="brand-mark">LT</span>
+        <span>LabTrack</span>
+      </a>
+      <nav class="header-actions" aria-label="Navegación principal">
+        <span class="user-chip">{{ session.get('username') }}</span>
+        <form method="post" action="{{ url_for('auth.logout') }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button class="button button-ghost button-small" type="submit">Cerrar sesión</button>
+        </form>
+      </nav>
+    </header>
+  {% endif %}
+
+  <main class="page-shell {% block shell_class %}{% endblock %}">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="messages" aria-live="polite">
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }}" data-testid="alert">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <script>
+    document.querySelectorAll('[data-open-dialog]').forEach((button) => {
+      button.addEventListener('click', () => document.getElementById(button.dataset.openDialog).showModal());
+    });
+    document.querySelectorAll('[data-close-dialog]').forEach((button) => {
+      button.addEventListener('click', () => button.closest('dialog').close());
+    });
+  </script>
+</body>
+</html>
+

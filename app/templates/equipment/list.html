@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Inventario · LabTrack{% endblock %}
+{% block content %}
+<div class="page-heading">
+  <div>
+    <p class="eyebrow">Panel de control</p>
+    <h1>Inventario de equipos</h1>
+    <p class="muted">Consulta y administra los recursos del laboratorio.</p>
+  </div>
+  <a class="button button-primary" href="{{ url_for('equipment.create') }}">+ Nuevo equipo</a>
+</div>
+
+<section class="panel">
+  <form class="search-form" method="get" role="search">
+    <label class="sr-only" for="search">Buscar equipos</label>
+    <input id="search" name="q" type="search" maxlength="50" value="{{ query }}" placeholder="Buscar por código, nombre o categoría">
+    <button class="button button-secondary" type="submit">Buscar</button>
+    {% if query %}<a class="button button-ghost" href="{{ url_for('equipment.list_equipment') }}">Limpiar</a>{% endif %}
+  </form>
+
+  {% if equipment %}
+    <div class="table-wrap">
+      <table data-testid="equipment-table">
+        <thead><tr><th>Código</th><th>Equipo</th><th>Categoría</th><th>Estado</th><th>Cantidad</th><th class="align-right">Acciones</th></tr></thead>
+        <tbody>
+          {% for item in equipment %}
+            <tr data-testid="equipment-row" data-code="{{ item['code'] }}">
+              <td><span class="code">{{ item['code'] }}</span></td>
+              <td><a class="table-link" href="{{ url_for('equipment.detail', equipment_id=item['id']) }}">{{ item['name'] }}</a></td>
+              <td>{{ item['category'] }}</td>
+              <td><span class="status status-{{ item['status']|lower|replace(' ', '-') }}">{{ item['status'] }}</span></td>
+              <td>{{ item['quantity'] }}</td>
+              <td class="row-actions">
+                <a class="button button-ghost button-small" href="{{ url_for('equipment.edit', equipment_id=item['id']) }}">Editar</a>
+                <button class="button button-danger-ghost button-small" type="button" data-open-dialog="delete-{{ item['id'] }}">Eliminar</button>
+                <dialog id="delete-{{ item['id'] }}" class="modal">
+                  <div class="modal-icon">!</div>
+                  <h2>Eliminar equipo</h2>
+                  <p>¿Seguro que deseas eliminar <strong>{{ item['name'] }}</strong>? Esta acción no se puede deshacer.</p>
+                  <div class="modal-actions">
+                    <button class="button button-ghost" type="button" data-close-dialog>Cancelar</button>
+                    <form method="post" action="{{ url_for('equipment.delete', equipment_id=item['id']) }}">
+                      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                      <button class="button button-danger" type="submit">Sí, eliminar</button>
+                    </form>
+                  </div>
+                </dialog>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="empty-state" data-testid="empty-state">
+      <div class="empty-icon">⌕</div>
+      <h2>No encontramos equipos</h2>
+      <p>{% if query %}Prueba con otro término de búsqueda.{% else %}Agrega el primer equipo del inventario.{% endif %}</p>
+    </div>
+  {% endif %}
+</section>
+{% endblock %}
+
