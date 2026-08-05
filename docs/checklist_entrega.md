@@ -25,7 +25,7 @@ Pega únicamente los enlaces finales:
 ```text
 Repositorio de código: https://github.com/Geisonm161/labtrack-selenium
 Historias de usuario: https://geisonm161.atlassian.net/jira/software/projects/KAN/boards/1
-Video demostrativo: https://youtu.be/...
+Video demostrativo: https://youtu.be/ketn81c8UIQ
 ```
 
 No adjuntes ZIP, PDF, Word ni el video directamente. No modifiques GitHub, Jira/Azure o YouTube después de la fecha límite indicada por el docente.
