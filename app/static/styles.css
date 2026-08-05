@@ -34,7 +34,8 @@ button:disabled, .button[aria-disabled="true"] { cursor: not-allowed; opacity: .
 .header-actions form { margin: 0; }
 .user-chip { background: #eff4ff; border-radius: 999px; color: #3538cd; font-size: .83rem; font-weight: 650; padding: 7px 11px; }
 .page-shell { margin: 0 auto; max-width: 1240px; padding: 48px 28px 72px; }
-.auth-shell { align-items: center; display: flex; justify-content: center; min-height: 100vh; padding: 32px 20px; }
+.auth-shell { align-items: center; display: flex; flex-direction: column; justify-content: center; min-height: 100vh; padding: 32px 20px; }
+.auth-shell .messages { width: min(100%, 430px); }
 .login-card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; box-shadow: var(--shadow); padding: 38px; width: min(100%, 430px); }
 .login-heading { margin-bottom: 28px; text-align: center; }
 .login-heading h1 { font-size: 1.7rem; margin: 14px 0 8px; }
